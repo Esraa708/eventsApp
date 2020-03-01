@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head.ejs") -%>
+    <script src="/js/eventListRequest.js"></script>
+
+    <title>Event list</title>
+
+</head>
+
+<body>
+    <%- include("../partials/userNav.ejs",{id:id}) -%>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive mt-4">
+                    <table class="table table-danger">
+                        <thead>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>role</th>
+                            <!-- <th>Other Speakers</th> -->
+                            <th></th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <% data.forEach(function(event) { %>
+                            <tr>
+                                <td>
+                                    <%= event._id %>
+                                </td>
+                                <td>
+                                    <%= event.title %>
+                                </td>
+                                <td><%-moment(event.eventDate).format("YYYY-MM-DD")%></td>
+                                <% if(event.mainSpeaker == id) { %>
+                                <td>Main speaker</td>
+                                <% } else {   %>
+                                <td> Normal speaker</td>
+                                <% } %>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

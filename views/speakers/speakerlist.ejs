@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head.ejs") -%>
+    <script src="/js/speakerListrequest.js"></script>
+
+    <title>Document</title>
+
+</head>
+
+<body>
+    <%- include("../partials/adminNav.ejs") -%>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive mt-4">
+                    <table class="table table-danger">
+                        <thead>
+                            <th>#</th>
+                            <th>name</th>
+                            <th>age</th>
+                            <th></th>
+                            <th></th>
+                            <th>image</th>
+                        </thead>
+                        <tbody>
+                            <% data.forEach(function(speaker) { %>
+                            <tr>
+                                <td>
+                                    <%= speaker._id %>
+                                </td>
+                                <td>
+                                    <%= speaker.fullName.fName %>
+                                    <%= speaker.fullName.lName %>
+                                </td>
+                                <td>
+                                    <%= speaker.age %>
+                                </td>
+                                <td>
+                                    <a href="/speaker/edit/<%=speaker._id%>">Edit</a>
+                                </td>
+                                <td>
+                                    <!-- href="/speaker/delete/<%=speaker._id%>" -->
+                                    <a href="#" target="_blanck" onclick="deleteSpeaker('<%=speaker._id%>',this)" >Delete</a>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head.ejs") -%>
+    <script src="/js/eventListRequest.js"></script>
+
+    <title>Event list</title>
+
+</head>
+
+<body>
+    <%- include("../partials/adminNav.ejs",{username}) -%>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive mt-4">
+                    <table class="table table-danger">
+                        <thead>
+                            <th>#</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Main speaker</th>
+                            <th>Other Speakers</th>
+                            <th></th>
+                            <th></th>
+                        </thead>
+                        <tbody>
+                            <% data.forEach(function(event) { %>
+                            <tr>
+                                <td>
+                                    <%= event._id %>
+                                </td>
+                                <td>
+                                    <%= event.title %>
+                                </td>
+                                <td>
+                                    <%#= event.eventDate %>
+                                    <%= moment(event.eventDate).format("MMM Do YY")%>
+                                    
+                                </td>
+                                <td>
+                                    <%= event.mainSpeaker.fullName.fName+" "+event.mainSpeaker.fullName.lName  %>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <%event.otherSpeakers.forEach(function(otherSpeaker){ %>
+                                        <li><%= otherSpeaker.fullName.fName+" "+ otherSpeaker.fullName.lName %></li>
+                                        <% }); %>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <a href="/event/edit/<%=event._id%>" target="_blanck">Edit</a>
+                                </td>
+                                <td>
+                                    <a href="#" 
+                                        onclick="deleteEvent('<%=event._id%>',this)">Delete</a>
+                                </td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

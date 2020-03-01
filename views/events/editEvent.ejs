@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head.ejs") -%>
+
+    <title>Event list</title>
+
+
+</head>
+
+<body>
+    <div class="container mt-3">
+        <div class="row">
+
+            <div class="col-6 mx-auto mt-4">
+                <form action="/event/edit" method="POST">
+
+                    <div class="col">
+                        <label for="speakerID">ID</label>
+                        <input type="text" class="form-control" id="speakerID" value="<%- event._id %>" name="_id"
+                            placeholder="Enter name">
+                    </div>
+                    <div class="col">
+                        <label for="name">Title</label>
+                        <input type="text" class="form-control" value="<%- event.title %>" name="title"
+                            placeholder="Enter a title">
+                    </div>
+                    <div class="col">
+                        <label for="name">Date</label>
+                        <input type="date" class="form-control" value="<%-moment(event.eventDate).format("YYYY-MM-DD")%>" name="eventDate"
+                            placeholder="Enter a  Date">
+                    </div>
+                    <div class="col">
+                        <label for="mainSpeaker">Main Speaker</label>
+                        <select name="mainSpeaker" id="mainSpeakerSelect" class="form-control">
+                            <% speakers.forEach(function(speaker) { %>
+                            <% if(speaker._id == event.mainSpeaker){ %>
+                            <option value="<%=speaker._id%>" selected><%=speaker.fullName.fName + " "+speaker.fullName.lName %></option>
+                            <% } else { %>
+                            <option value="<%=speaker._id%>"><%=speaker.fullName.fName + " "+speaker.fullName.lName%></option>
+                            <% } %> 
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="otherSpeakers">Other Speakers</label>
+                        <select name="otherSpeakers" id="otherSpeakerSelect" multiple class="form-control">
+                            <%speakers.forEach(function(speaker){ %>
+                            <% if(event.otherSpeakers.includes(speaker._id)){ %>
+                            <option value="<%=speaker._id%>" selected><%=speaker.fullName.fName + " "+speaker.fullName.lName%></option>
+                            <%} else { %>
+                            <option value="<%=speaker._id%>"><%=speaker.fullName.fName + " "+speaker.fullName.lName%></option>
+                            <% } %>
+                            <% }); %>
+                        </select>
+                    </div>
+                    
+                    <input type="submit" value="sumbit" class="btn btn-success mt-4">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

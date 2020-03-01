@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../partials/head.ejs") -%>
+
+    <title>Event list</title>
+
+
+</head>
+
+<body>
+    <%- include("../partials/adminNav.ejs",{username}) -%>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-6 mx-auto mt-4">
+                <form action="/event/add" method="POST">
+
+                    <div class="col">
+                        <label for="speakerID">ID</label>
+                        <input type="text" class="form-control" id="speakerID" value="" name="_id"
+                            placeholder="Enter an ID">
+                    </div>
+                    <div class="col">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" value="" name="title" placeholder="Enter name">
+                    </div>
+                    <div class="col">
+                        <label for="name">Date</label>
+                        <input type="date" class="form-control" value="" name="eventDate" placeholder="Enter a date">
+                    </div>
+                    <div class="col">
+                        <label for="mainSpeaker">Main Speaker</label>
+                        <select name="mainSpeaker" id="mainSpeakerSelect" class="form-control"
+                            onchange="selectMainSpeaker(event)">
+                            <% data.forEach(function(speaker) { %>
+                            <option value="<%=speaker._id%>"><%=speaker.fullName.fName + " "+speaker.fullName.lName%></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <script>
+                        function selectMainSpeaker(event) {
+                             speakerId=event.target.value;
+                        }
+
+                    </script>
+
+
+                    <div class="col">
+                        <label for="otherSpeakers">Other Speakers</label>
+                        <select name="otherSpeakers" id="otherSpeakerSelect" multiple class="form-control">
+                            <%#  let speakerId= data.indexOf(speakerId)%> 
+
+                            <%data.forEach(function(speaker) { %>
+                            <option value="<%=speaker._id%>"><%=speaker.fullName.fName + " "+speaker.fullName.lName%></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <input type="submit" value="sumbit" class="btn btn-success mt-4">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
