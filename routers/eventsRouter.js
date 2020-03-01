@@ -8,9 +8,34 @@ const speakerRouter = express.Router();
 require("../model/speakerModel");
 speakerModel = mongoose.model('speakers')
 eventsModel = mongoose.model('events')
+ //speaker events
+  
+ eventRouter.get("/myEvent/:id", (request, response) => {
+    speakerModel.findOne({_id:request.params.id}).then((data) => {
+        response.locals.username = data.username;
+        }).catch((err) => {
+        console.log(err + "");
+    }) 
+
+    eventsModel.find({$or:[{mainSpeaker:request.params.id},{otherSpeakers:request.params.id}]}).then((data) => {
+        response.render("events/userEventsList.ejs",{id:request.params.id,data:data,moment:moment});
+        }).catch((err) => {
+        console.log(err + "");
+    })   
+
+})
+eventRouter.use((request,response,next) =>{
+    if(request.session.role == 'admin'){
+        response.locals.username = "esraa";
+        next();
+        
+    }else{
+        response.redirect('/login');
+
+    }
+})
 // list all events api
     eventRouter.get("/list", (request, response) => {
-        response.locals.username = "esraa";
         eventsModel.find({}).populate({path:'mainSpeaker otherSpeakers'}).then((data) =>{
                     response.render("events/eventList",{data:data,moment:moment});
                     // response.send(data);
@@ -23,7 +48,6 @@ eventsModel = mongoose.model('events')
     })
 
 eventRouter.get("/add", (request, response) => {
-    response.locals.username = "esraa";
     speakerModel.find({}).then((data) => {
         response.render("events/addEvent",{data:data});
         // response.send(data);
@@ -79,19 +103,5 @@ eventRouter.post("/delete", (request, response) => {
         console.log(err + "")
 
     })})
-    //speaker events
-    eventRouter.get("/myEvent/:id", (request, response) => {
-        speakerModel.findOne({_id:request.params.id}).then((data) => {
-            response.locals.username = data.username;
-            }).catch((err) => {
-            console.log(err + "");
-        }) 
-
-        eventsModel.find({$or:[{mainSpeaker:request.params.id},{otherSpeakers:request.params.id}]}).then((data) => {
-            response.render("events/userEventsList.ejs",{id:request.params.id,data:data,moment:moment});
-            }).catch((err) => {
-            console.log(err + "");
-        })   
-    
-    })
+   
 module.exports=eventRouter;
