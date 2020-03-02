@@ -10,15 +10,15 @@ speakerModel = mongoose.model('speakers')
 eventsModel = mongoose.model('events')
  //speaker events
   
- eventRouter.get("/myEvent/:id", (request, response) => {
-    speakerModel.findOne({_id:request.params.id}).then((data) => {
+ eventRouter.get("/myEvent/", (request, response) => {
+    speakerModel.findOne({_id:request.session.speaker_id}).then((data) => {
         response.locals.username = data.username;
         }).catch((err) => {
         console.log(err + "");
     }) 
 
-    eventsModel.find({$or:[{mainSpeaker:request.params.id},{otherSpeakers:request.params.id}]}).then((data) => {
-        response.render("events/userEventsList.ejs",{id:request.params.id,data:data,moment:moment});
+    eventsModel.find({$or:[{mainSpeaker:request.session.speaker_id},{otherSpeakers:request.session.speaker_id}]}).then((data) => {
+        response.render("events/userEventsList.ejs",{id:request.session.speaker_id,data:data,moment:moment});
         }).catch((err) => {
         console.log(err + "");
     })   

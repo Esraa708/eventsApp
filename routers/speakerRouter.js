@@ -3,9 +3,9 @@ let mongoose = require("mongoose")
 const speakerRouter = express.Router();
 require("../model/speakerModel");
 speakerModel = mongoose.model('speakers')
-speakerRouter.get("/profile/:id", (request, response) => {
-
-    speakerModel.findOne({ _id: request.params.id }).then((data) => {
+speakerRouter.get("/profile/", (request, response) => {
+console.log(request.session.speaker_id )
+    speakerModel.findOne({ _id: request.session.speaker_id }).then((data) => {
         console.log(data);
         //    response.render("speakers/speakerAdminEdit",{data});
         response.locals.username = data.username;

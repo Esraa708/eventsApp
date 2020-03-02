@@ -23,8 +23,11 @@ authenticationRouter.post("/login", (request, response) => {
     } else {
         speakerModel.findOne({username:request.body.username,password:request.body.password}).then((data) =>{
             request.session.role="user"
+            console.log(data._id)
+            request.session.speaker_id=data._id
+            console.log(request.session.speaker_id)
             response.locals.username=request.body.username;
-            response.redirect('/speaker/profile/'+data._id);
+            response.redirect('/speaker/profile/');
         }).catch((err) => {
             // response.redirect('/login');
             })
