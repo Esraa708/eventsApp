@@ -37,10 +37,12 @@
                                 <td>
                                     <%#= event.eventDate %>
                                     <%= moment(event.eventDate).format("MMM Do YY")%>
-                                    
+
                                 </td>
                                 <td>
+                                    <% if(event.mainSpeaker){  %>
                                     <%= event.mainSpeaker.fullName.fName+" "+event.mainSpeaker.fullName.lName  %>
+                                    <% }  %>
                                 </td>
                                 <td>
                                     <ul>
@@ -53,8 +55,7 @@
                                     <a href="/event/edit/<%=event._id%>" target="_blanck">Edit</a>
                                 </td>
                                 <td>
-                                    <a href="#" 
-                                        onclick="deleteEvent('<%=event._id%>',this)">Delete</a>
+                                    <a href="#" onclick="deleteEvent('<%=event._id%>',this)">Delete</a>
                                 </td>
                             </tr>
                             <% }); %>
